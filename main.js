@@ -1,3 +1,109 @@
+//Demande des informations sur l'utilisateur Spotify
+
+function generateRandomString(length) {
+  let text = '';
+  let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
+//hashage
+const digest = await window.crypto.subtle.digest('SHA-256', data);
+
+//La generateCodeChallengefonction renvoie la base64représentation du résumé en appelant àbase64encode() :
+async function generateCodeChallenge(codeVerifier) {
+  function base64encode(string) {
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  }
+
+  const encoder = new TextEncoder();
+  const data = encoder.encode(codeVerifier);
+  const digest = await window.crypto.subtle.digest('SHA-256', data);
+
+  return base64encode(digest);
+}
+
+
+//Le code pour demander l'autorisation de l'utilisateur ressemble à ceci :
+const clientId = 'YOUR_CLIENT_ID';
+const redirectUri = 'http://localhost:8080';
+
+let codeVerifier = generateRandomString(128);
+
+generateCodeChallenge(codeVerifier).then(codeChallenge => {
+  let state = generateRandomString(16);
+  let scope = 'user-read-private user-read-email';
+
+  localStorage.setItem('code_verifier', codeVerifier);
+
+  let args = new URLSearchParams({
+    response_type: 'code',
+    client_id: clientId,
+    scope: scope,
+    redirect_uri: redirectUri,
+    state: state,
+    code_challenge_method: 'S256',
+    code_challenge: codeChallenge
+  });
+
+  window.location = 'https://accounts.spotify.com/authorize?' + args;
+})
+;
+//Analyse l'URL et enregistrer le codeparamètre pour demander ensuite le jeton d'accès
+const urlParams = new URLSearchParams(window.location.search);
+let code = urlParams.get('code');
+
+//Le corps de la requête peut être implémenté comme suit :
+let codeVerifier = localStorage.getItem('code_verifier');
+
+let body = new URLSearchParams({
+  grant_type: 'authorization_code',
+  code: code,
+  redirect_uri: redirectUri,
+  client_id: clientId,
+  code_verifier: codeVerifier
+});
+
+//Enfin, nous pouvons faire la POSTrequête et stocker le jeton d'accès en analysant la réponse JSON du serveur :
+const response = fetch('https://accounts.spotify.com/api/token', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: body
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('HTTP status ' + response.status);
+    }
+    return response.json();
+  })
+  .then(data => {
+    localStorage.setItem('access_token', data.access_token);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+//Le code suivant implémente la getProfile()fonction qui effectue l'appel API au /mepoint de terminaison afin de récupérer les informations relatives au profil utilisateur :
+
+  async function getProfile(accessToken) {
+    let accessToken = localStorage.getItem('access_token');
+
+    const response = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: 'Bearer ' + accessToken
+      }
+    });
+
+    const data = await response.json();
+  }
+
 //Top 5 des titres des 30 derniers jours
 
 // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
