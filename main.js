@@ -3,7 +3,7 @@ function getToken() {
             const data = new URLSearchParams();
             data.append('grant_type', 'client_credentials');
             data.append('client_id', 'aca7085d90bc434c93697e3118cc8297');
-            data.append('client_secret', '4528291d95104291b3a79b4a2bf56ed0);
+            data.append('client_secret', '4528291d95104291b3a79b4a2bf56ed0');
 
             // Configuration de la requête
             const requestOptions = {
@@ -18,14 +18,16 @@ function getToken() {
             fetch('https://accounts.spotify.com/api/token', requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // Gérer la réponse de l'API Spotify ici
+                    var tokenArea = document.getElementById("tokenArea");
+                    var token = data["access_token"];
+                    tokenArea.value = token;
                     console.log(data);
                 })
                 .catch(error => {
                     console.error('Erreur lors de la requête :', error);
                 });
         }
-
+/*
 //Top 5 des titres des 30 derniers jours
 
 // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
@@ -103,3 +105,4 @@ const playlistId = '103uXic5F34U6TgxL8fnFR';
   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
   loading="lazy"
 />
+*/
