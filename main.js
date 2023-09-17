@@ -30,7 +30,7 @@ async function generateCodeChallenge(codeVerifier) {
 
 
 //Le code pour demander l'autorisation de l'utilisateur ressemble à ceci :
-const clientId = 'YOUR_CLIENT_ID';
+const clientId = 'aca7085d90bc434c93697e3118cc8297';
 const redirectUri = 'http://localhost:8080';
 
 let codeVerifier = generateRandomString(128);
@@ -181,3 +181,10 @@ const playlistId = '103uXic5F34U6TgxL8fnFR';
   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
   loading="lazy"
 />
+
+//Main
+function generation(){
+    var inputText = document.getElementBy("token");
+    var token = generateRandomString(128);
+    inputText.value = token;
+}
