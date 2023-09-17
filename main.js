@@ -103,10 +103,3 @@ const playlistId = '103uXic5F34U6TgxL8fnFR';
   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
   loading="lazy"
 />
-
-//Main
-function generation(){
-    var inputText = document.getElementBy("token");
-    var token = generateRandomString(128);
-    inputText.value = token;
-}
