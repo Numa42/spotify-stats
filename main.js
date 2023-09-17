@@ -10,7 +10,7 @@ function generateRandomString(length) {
   return text;
 }
 //hashage
-const digest = await window.crypto.subtle.digest('SHA-256', data);
+//const digest = await window.crypto.subtle.digest('SHA-256', data);
 
 //La generateCodeChallengefonction renvoie la base64représentation du résumé en appelant àbase64encode() :
 async function generateCodeChallenge(codeVerifier) {
