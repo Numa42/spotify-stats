@@ -15,7 +15,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = 'aca7085d90bc434c93697e3118cc8297'; // Your client id
 var client_secret = '4528291d95104291b3a79b4a2bf56ed0'; // Your secret
-var redirect_uri = 'https://numa42.github.io/spotify-stats/'; // Your redirect uri
+var redirect_uri = 'https://numa42.github.io/spotify-stats/'; //'http://localhost:8888/callback';// Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -163,7 +163,7 @@ async function getTopTracks(){
     'v1/me/top/tracks?time_range=short_term&limit=5', 'GET'
   )).items;
 }
-
+/*
 // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
 const token = access_token;
 async function fetchWebApi(endpoint, method, body) {
@@ -190,4 +190,4 @@ console.log(
     ({name, artists}) =>
       `${name} by ${artists.map(artist => artist.name).join(', ')}`
   )
-);
+);*/
