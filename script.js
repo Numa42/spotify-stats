@@ -11,10 +11,10 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function top5() {
-    // Utilisez la fonction pour obtenir la valeur du paramètre "code"
-    const token = getParameterByName("code", url);
+// Utilisez la fonction pour obtenir la valeur du paramètre "code"
+const token = getParameterByName("code", url);
 
+function top5() {
     // Authorization token that must have been created previously. See : https://developer.spotify.com/documentation/web-api/concepts/authorization
     async function fetchWebApi(endpoint, method, body) {
         const res = await fetch(`https://api.spotify.com/${endpoint}`, {
@@ -34,11 +34,11 @@ function top5() {
         )).items;
     }
 
-    const topTracks = await getTopTracks();
-    console.log(
+    const topTracks = getTopTracks();
+    /*console.log(
         topTracks?.map(
             ({name, artists}) =>
                 `${name} by ${artists.map(artist => artist.name).join(', ')}`
         )
-    );
+    );*/
 };
