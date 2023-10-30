@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr">
 <head>
@@ -21,6 +20,9 @@
 <body>
     <h1>Spotify stats</h1>
     <button type="button" onclick="top5()">Top 5 des titres des 30 derniers jours</button>
+    <?php
+    echo "<p>".$_GET["code"]."</p>"
+    ?>
 </body>
 <script src="script.js"></script>
 </html>
